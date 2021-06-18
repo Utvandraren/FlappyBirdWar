@@ -29,19 +29,17 @@ void UHealthComponent::BeginPlay()
 
 void UHealthComponent::TakeDamage(AActor* DamagedActor, float Damage, const UDamageType* DamageType, AController* InstigatedBy, AActor* DamageCauser)
 {
-	if (Damage == 0 || Health <= 0)
+	if (Damage == 0)
 	{
-		UE_LOG(LogTemp, Error, TEXT("Damage cancelled"));
-
+		UE_LOG(LogTemp, Warning, TEXT("Damage cancelled"));
 		return;
 	}
 
 	Health = FMath::Clamp(Health - Damage, 0.0f, DefaultHealth);
-	UE_LOG(LogTemp, Warning, TEXT("Taking dmamage"));
 
 	if (Health <= 0)
 	{
-		UE_LOG(LogTemp, Warning, TEXT("Actor has reached 0 health"));
+		//UE_LOG(LogTemp, Warning, TEXT("Actor has reached 0 health"));
 		if (GameModeRef)
 		{
 			GameModeRef->ActorDied(GetOwner());

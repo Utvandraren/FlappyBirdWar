@@ -7,7 +7,7 @@
 #include "PawnBase.h"
 #include "Enemy.generated.h"
 
-class APawnTank;
+class AFlappyBirdPawn;
 
 UCLASS()
 class FLAPPYBIRDWAR_API AEnemy : public APawnBase
@@ -19,7 +19,9 @@ private:
 		float FireRate = 2.0f;
 
 	FTimerHandle FireRateTimerHandle;
-	APawnTank* PlayerPawn;
+	AFlappyBirdPawn* PlayerPawn;
+
+	void TryFire();
 
 
 protected:

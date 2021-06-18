@@ -52,30 +52,6 @@ void AFlappyBirdPawn::Jump()
 	//UE_LOG(LogTemp, Warning, TEXT("Jump presses"));
 }
 
-void AFlappyBirdPawn::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)
-{
-	AActor* MyOwner = GetOwner();
-
-	if (!MyOwner)
-	{
-		return;
-	}
-
-	//if the other actor "ISNT self Or owner AND exists, then apply damage
-	if (OtherActor && OtherActor != this && OtherActor != MyOwner)
-	{
-
-		//Game ends
-
-		/*UGameplayStatics::ApplyDamage(OtherActor, Damage, MyOwner->GetInstigatorController(), this, DamageType);
-		UGameplayStatics::SpawnEmitterAtLocation(this, HitParticle, GetActorLocation());
-		UGameplayStatics::PlaySoundAtLocation(this, HitSound, GetActorLocation());
-		GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(HitShake);
-		Destroy();*/
-	}
-
-}
-
 
 
 

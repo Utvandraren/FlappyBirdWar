@@ -19,13 +19,14 @@ AProjectileBase::AProjectileBase()
 	RootComponent = ProjectileMesh;
 
 	ProjectileMovement = CreateDefaultSubobject<UProjectileMovementComponent>(TEXT("Projectile Movement"));
-	ProjectileMovement->InitialSpeed = MovementSpeed;
-	ProjectileMovement->MaxSpeed = MovementSpeed;
+	ProjectileMovement->InitialSpeed = 100.f;
+	ProjectileMovement->MaxSpeed = 100.f;
+	ProjectileMovement->ProjectileGravityScale = 0.f;
 
 	ParticleTrail = CreateDefaultSubobject<UParticleSystemComponent>(TEXT("Particle Trail"));
 	ParticleTrail->SetupAttachment(RootComponent);
 
-
+	
 	InitialLifeSpan = 3.0f;
 
 }
@@ -37,7 +38,6 @@ void AProjectileBase::BeginPlay()
 	ProjectileMesh->OnComponentHit.AddDynamic(this, &AProjectileBase::OnHit);
 
 	UGameplayStatics::PlaySoundAtLocation(this, LaunchSound, GetActorLocation());
-
 }
 
 void AProjectileBase::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, FVector NormalImpulse, const FHitResult& Hit)

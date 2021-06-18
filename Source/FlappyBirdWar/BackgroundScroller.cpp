@@ -6,9 +6,8 @@
 #include "Components/BoxComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "FlappyBirdPawn.h"
+#include "Enemy.h"
 #include "Engine/Engine.h"
-
-
 
 
 
@@ -25,8 +24,18 @@ ABackgroundScroller::ABackgroundScroller()
 	BoxCollider->SetupAttachment(RootComponent);
 	BoxCollider->SetCollisionProfileName("Trigger");
 
-	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Projectile Spawn Point"));
+	SpawnPoint = CreateDefaultSubobject<USceneComponent>(TEXT("Tile Spawn Point"));
 	SpawnPoint->SetupAttachment(RootComponent);
+	FVector NewPos = SpawnPoint->GetComponentLocation();
+	NewPos.X = 2400.f;
+	SpawnPoint->AddRelativeLocation(NewPos);
+
+	TopMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Top Mesh"));
+	TopMesh->SetupAttachment(RootComponent);
+
+	BottomMesh = CreateDefaultSubobject<UStaticMeshComponent>(TEXT("Bottom Mesh"));
+	BottomMesh->SetupAttachment(RootComponent);
+
 }
 
 // Called when the game starts or when spawned
@@ -37,6 +46,10 @@ void ABackgroundScroller::BeginPlay()
 	BoxCollider->OnComponentBeginOverlap.AddDynamic(this, &ABackgroundScroller::OnOverlapBegin);
 
 	GetWorld()->GetTimerManager().SetTimer(DestroySelfTimerHandle, this, &ABackgroundScroller::DestroySelf, 360,false);
+	//GetWorld()->GetTimerManager().SetTimer(EnemySpawnTimerHandle, this, &ABackgroundScroller::DestroySelf, 5, true);
+	     
+	
+
 }
 
 // Called every frame
@@ -48,7 +61,7 @@ void ABackgroundScroller::Tick(float DeltaTime)
 
 void ABackgroundScroller::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
 {
-	//UE_LOG(LogTemp, Error, TEXT("Background triggered"));
+	UE_LOG(LogTemp, Error, TEXT("Background triggered"));
 	//GEngine->AddOnScreenDebugMessage(-1, 1.f, FColor::Green, "Overlap Begin FUnction Called");
 	//UE_LOG(LogTemp, Warning, TEXT("Taking dmamage"));
 
@@ -57,7 +70,17 @@ void ABackgroundScroller::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AA
 	if (OtherActor && OtherActor != this && OtherActor == PlayerPawn)
 	{
 		GenerateNewTile();
+
+		/*if (EnemyToSpawn)
+		{
+			for (int i = 0; i < 5; ++i)
+			{
+				SpawnEnemy();
+			}
+		}*/
+
 	}
+
 }
 
 void ABackgroundScroller::GenerateNewTile()
@@ -79,6 +102,20 @@ void ABackgroundScroller::GenerateNewTile()
 void ABackgroundScroller::DestroySelf()
 {
 	Destroy();
+}
+
+void ABackgroundScroller::SpawnEnemy()
+{
+	FVector spawnPos = SpawnPoint->GetComponentLocation();
+	spawnPos.X += FMath::RandRange(-200.f, 200.f);
+	spawnPos.Y += 100.f;
+	spawnPos.Z += FMath::RandRange(-200.f, 200.f);
+
+	FRotator SpawnRotation = GetTransform().GetRotation().Rotator();
+
+	AEnemy* NewEnemy = GetWorld()->SpawnActor<AEnemy>(EnemyToSpawn, spawnPos, SpawnRotation);
 
 }
+
+
 

@@ -14,11 +14,13 @@ class AFlappyBirdWarGameMode : public AGameModeBase
 	GENERATED_BODY()
 private:
 	void HandleGameStart();
-	void HandleGameOver(bool PlayerWon);
+	void HandleGameOver(float PlayerScore);
+	void IncreaseScore();
 
 	AFlappyBirdPawn* PlayerBird;
 	//APlayerControllerBase* PlayerControllerRef;
-
+	float Score;
+	FTimerHandle ScoreTimerHandle;
 
 public:
 	void ActorDied(AActor* DeadActor);
@@ -28,7 +30,7 @@ public:
 	UFUNCTION(BlueprintImplementableEvent)
 		void GameStart();
 	UFUNCTION(BlueprintImplementableEvent)
-		void GameOver(bool PlayerWon);
+		void GameOver(float PlayerScore);
 
 	//AFlappyBirdWarGameMode();
 };

@@ -11,8 +11,8 @@ void AFlappyBirdWarGameMode::ActorDied(AActor* DeadActor)
 	if (DeadActor == PlayerBird)
 	{
 		PlayerBird->HandleDestruction();
-		HandleGameOver(false);
-
+		HandleGameOver(Score);
+		//UE_LOG(LogTemp, Warning, TEXT("Player died!"));
 		/*if (PlayerControllerRef)
 		{
 			PlayerControllerRef->SetPlayerEnabledState(false);
@@ -21,7 +21,6 @@ void AFlappyBirdWarGameMode::ActorDied(AActor* DeadActor)
     else if (AEnemy* DestroyedEnemy = Cast<AEnemy>(DeadActor))
 	{
 		DestroyedEnemy->HandleDestruction();
-		
 	}
 }
 
@@ -32,14 +31,26 @@ void AFlappyBirdWarGameMode::BeginPlay()
 	HandleGameStart();
 }
 
-void AFlappyBirdWarGameMode::HandleGameOver(bool PlayerWon)
+void AFlappyBirdWarGameMode::HandleGameOver(float PlayerScore)
 {
+	//UE_LOG(LogTemp, Warning, TEXT("Game over"));
+	ScoreTimerHandle.Invalidate();
+	GameOver(PlayerScore);
+}
+
+void AFlappyBirdWarGameMode::IncreaseScore()
+{
+	++Score;
 }
 
 void AFlappyBirdWarGameMode::HandleGameStart()
 {
+	PlayerBird = Cast<AFlappyBirdPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+	GetWorld()->GetTimerManager().SetTimer(ScoreTimerHandle, this, &AFlappyBirdWarGameMode::IncreaseScore, 1.f, true);
 
 }
+
+
 
 
 
