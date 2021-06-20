@@ -20,6 +20,7 @@ private:
 
 	FTimerHandle FireRateTimerHandle;
 	AFlappyBirdPawn* PlayerPawn;
+	FVector CurrentLocation = FVector(0.0, 0.0, 0.0);
 
 	void TryFire();
 
@@ -29,6 +30,9 @@ protected:
 	virtual void BeginPlay() override;
 
 public:	
+	UPROPERTY(EditAnywhere, Category = "Stats")
+		int speed = 1;
+
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
 	virtual void HandleDestruction() override;

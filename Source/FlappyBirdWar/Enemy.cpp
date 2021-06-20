@@ -12,10 +12,11 @@
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	CurrentLocation = this->GetActorLocation();
 	PlayerPawn = Cast<AFlappyBirdPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
 	FireRate += FMath::RandRange(-1.f, 1.f);
 	GetWorld()->GetTimerManager().SetTimer(FireRateTimerHandle, this, &AEnemy::TryFire, FireRate, true);
+	speed += FMath::RandRange(-10.f, 20.f);
 
 }
 
@@ -23,6 +24,10 @@ void AEnemy::BeginPlay()
 void AEnemy::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+	speed += FMath::RandRange(-5.f, 5.f);
+	CurrentLocation = this->GetActorLocation();
+	CurrentLocation.X -= speed * DeltaTime;
+	SetActorLocation(CurrentLocation);
 
 }
 
