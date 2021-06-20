@@ -10,7 +10,7 @@ class USphereComponent;
 class AProjectileBase;
 class UHealthComponent;
 class UPaperSpriteComponent;
-
+class UNiagaraComponent;
 
 UCLASS()
 class FLAPPYBIRDWAR_API APawnBase : public APawn
@@ -31,7 +31,7 @@ private:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Projectile Type", meta = (AllowPrivateAccess = "true"))
 		TSubclassOf<AProjectileBase> ProjectileClass;
 	UPROPERTY(EditAnywhere, Category = "Effects")
-		UParticleSystem* DeathParticle;
+		UNiagaraComponent* DeathParticle;
 	UPROPERTY(EditAnywhere, Category = "Effects")
 		USoundBase* DeathSound;
 	UPROPERTY(EditAnywhere, Category = "Effects")

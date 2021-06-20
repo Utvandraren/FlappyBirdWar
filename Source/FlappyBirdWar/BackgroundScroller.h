@@ -23,6 +23,8 @@ private:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		UBoxComponent* BoxCollider;
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
+		UBoxComponent* SpawnBoxCollider;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		USceneComponent* SpawnPoint;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		UStaticMeshComponent* TopMesh;
@@ -40,8 +42,7 @@ private:
 
 	AFlappyBirdPawn* PlayerPawn;
 	FTimerHandle DestroySelfTimerHandle;
-	//FTimerHandle EnemySpawnTimerHandle;
-
+	bool bGeneratedNextTile = false;
 
 public:	
 	// Sets default values for this actor's properties

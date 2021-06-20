@@ -7,6 +7,10 @@
 #include "HealthComponent.h"
 #include "Kismet/GameplayStatics.h"
 #include "PaperSpriteComponent.h"
+#include "NiagaraComponent.h"
+#include "NiagaraFunctionLibrary.h"
+
+
 
 
 
@@ -29,7 +33,9 @@ APawnBase::APawnBase()
 
 void APawnBase::HandleDestruction()
 {
-	UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
+	//UGameplayStatics::SpawnEmitterAtLocation(this, DeathParticle, GetActorLocation());
+	//UNiagaraFunctionLibrary::SpawnSystemAtLocation(GetWorld(), DeathParticle, GetActorLocation());
+
 	UGameplayStatics::PlaySoundAtLocation(this, DeathSound, GetActorLocation());
 	//GetWorld()->GetFirstPlayerController()->ClientPlayCameraShake(DeathShake);
 	//Destroy();
