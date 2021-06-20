@@ -15,22 +15,30 @@ class AFlappyBirdWarGameMode : public AGameModeBase
 private:
 	void HandleGameStart();
 	void HandleGameOver(float PlayerScore);
-	void IncreaseScore();
 
 	AFlappyBirdPawn* PlayerBird;
-	//APlayerControllerBase* PlayerControllerRef;
-	float Score;
+	APlayerController* PlayerController;
 	FTimerHandle ScoreTimerHandle;
+
+	void IncreaseScore();
+
+
+protected:
+	UFUNCTION(BlueprintCallable, BlueprintImplementableEvent)
+		void GameOver();
+
 
 public:
 	void ActorDied(AActor* DeadActor);
 
 	virtual void BeginPlay() override;
+	//virtual void InitGame(const FString& MapName,const FString& Options,FString& ErrorMessage) override;
 
-	UFUNCTION(BlueprintImplementableEvent)
-		void GameStart();
-	UFUNCTION(BlueprintImplementableEvent)
-		void GameOver(float PlayerScore);
+	//virtual void InitGame(const FString& MapName, const FString& Options, FString& ErrorMessage) override;
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		float Score;
+
+
 
 	//AFlappyBirdWarGameMode();
 };

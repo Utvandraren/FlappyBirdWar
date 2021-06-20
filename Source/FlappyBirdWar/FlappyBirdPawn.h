@@ -22,6 +22,12 @@ private:
 		USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Components", meta = (AllowPrivateAccess = "true"))
 		UCameraComponent* Camera;
+	FTimerHandle ScoreTimerHandle;
+	UInputComponent* PlayerInput;
+
+	void IncreaseScore();
+
+	
 
 protected:
 	// Called when the game starts or when spawned
@@ -39,7 +45,11 @@ public:
 		int speed = 1;
 	UPROPERTY(EditAnywhere, Category = "Stats")
 		FVector ConstantForceVector = FVector(100.0, 0.0, 0.0);
+	UPROPERTY(EditAnywhere, BlueprintReadWrite, Category = "Stats")
+		float Score;
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void GameOver();
 
 	// Called every frame
 	virtual void Tick(float DeltaTime) override;
@@ -48,6 +58,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
     void Jump();
-	//virtual void HandleDestruction() override;
+	virtual void HandleDestruction() override;
+
 
 };

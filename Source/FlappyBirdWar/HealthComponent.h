@@ -17,12 +17,15 @@ private:
 	UPROPERTY(EditAnywhere)
 	float DefaultHealth = 100.0f;
 	float Health = 0.0f;
+	float MaxHealth;
+
 	AFlappyBirdWarGameMode* GameModeRef;
 
 
 public:	
 	// Sets default values for this component's properties
 	UHealthComponent();
+	void ResetHealth();
 
 protected:
 	// Called when the game starts

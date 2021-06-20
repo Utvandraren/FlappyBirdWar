@@ -6,13 +6,13 @@
 #include "Enemy.h"
 
 
+
 void AFlappyBirdWarGameMode::ActorDied(AActor* DeadActor)
 {
 	if (DeadActor == PlayerBird)
 	{
 		PlayerBird->HandleDestruction();
 		HandleGameOver(Score);
-		//UE_LOG(LogTemp, Warning, TEXT("Player died!"));
 		/*if (PlayerControllerRef)
 		{
 			PlayerControllerRef->SetPlayerEnabledState(false);
@@ -33,21 +33,27 @@ void AFlappyBirdWarGameMode::BeginPlay()
 
 void AFlappyBirdWarGameMode::HandleGameOver(float PlayerScore)
 {
-	//UE_LOG(LogTemp, Warning, TEXT("Game over"));
-	ScoreTimerHandle.Invalidate();
-	GameOver(PlayerScore);
+	UE_LOG(LogTemp, Warning, TEXT("GameOVerhandle!"));
+	//GameOver(); //dint work because of bug
+	AActor::DisableInput(GetWorld()->GetFirstPlayerController());
+}
+
+
+void AFlappyBirdWarGameMode::HandleGameStart()
+{
+	UE_LOG(LogTemp, Warning, TEXT("Game started!"));
+
+	PlayerBird = Cast<AFlappyBirdPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
+	//PlayerBird->RestoreHealth();
+	//PlayerController = Cast < APlayerController, AController(GetController());
+	//DisableInput(PlayerController);
+	GetWorld()->GetTimerManager().SetTimer(ScoreTimerHandle, this, &AFlappyBirdWarGameMode::IncreaseScore, 1.f, true);
+
 }
 
 void AFlappyBirdWarGameMode::IncreaseScore()
 {
 	++Score;
-}
-
-void AFlappyBirdWarGameMode::HandleGameStart()
-{
-	PlayerBird = Cast<AFlappyBirdPawn>(UGameplayStatics::GetPlayerPawn(this, 0));
-	GetWorld()->GetTimerManager().SetTimer(ScoreTimerHandle, this, &AFlappyBirdWarGameMode::IncreaseScore, 1.f, true);
-
 }
 
 

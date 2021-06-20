@@ -26,6 +26,7 @@ void AFlappyBirdPawn::BeginPlay()
 {
 	Super::BeginPlay();
 	CurrentLocation = this->GetActorLocation();
+	GetWorld()->GetTimerManager().SetTimer(ScoreTimerHandle, this, &AFlappyBirdPawn::IncreaseScore, 1.f, true);
 
 }
 
@@ -44,6 +45,7 @@ void AFlappyBirdPawn::SetupPlayerInputComponent(UInputComponent* PlayerInputComp
 	Super::SetupPlayerInputComponent(PlayerInputComponent);
 	PlayerInputComponent->BindAction("Jump", IE_Pressed, this, &AFlappyBirdPawn::Jump);
 	PlayerInputComponent->BindAction("Fire", IE_Pressed, this, &AFlappyBirdPawn::Fire);
+	PlayerInput = PlayerInputComponent;
 }
 
 void AFlappyBirdPawn::Jump()
@@ -51,6 +53,23 @@ void AFlappyBirdPawn::Jump()
 	SphereComponent->AddImpulse(ForceVector, NAME_None, true);
 	//UE_LOG(LogTemp, Warning, TEXT("Jump presses"));
 }
+
+void AFlappyBirdPawn::HandleDestruction()
+{
+	Super::HandleDestruction();
+
+	SetActorHiddenInGame(true);
+	SetActorTickEnabled(false);
+	SphereComponent->SetActive(false);
+	SphereComponent->SetSimulatePhysics(false);
+	GameOver();
+}
+
+void AFlappyBirdPawn::IncreaseScore()
+{
+	++Score;
+}
+
 
 
 

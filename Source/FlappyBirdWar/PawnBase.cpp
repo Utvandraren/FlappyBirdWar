@@ -47,4 +47,10 @@ void APawnBase::Fire()
 	}
 }
 
+void APawnBase::RestoreHealth()
+{
+	HealthComponent->ResetHealth();
+}
+
+
 
